@@ -11,7 +11,7 @@ const Column = ({ column, tasks }: ColumnProps) => {
       <h2 className='mb-4 font-semibold text-neutral-100'>{column.title}</h2>
       <div className='flex flex-1 flex-col gap-4'>
         {tasks.map((task) => {
-          return <TaskCard task={task} />;
+          return <TaskCard key={task.id} task={task} />;
         })}
       </div>
     </div>
