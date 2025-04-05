@@ -49,18 +49,41 @@ const KanbanBoard = () => {
       )
     );
   };
+
+  const addTaskHandler = (
+    title: string,
+    description: string,
+    columnId: Task["status"]
+  ) => {
+    setTasks((prevTasks) => [
+      ...prevTasks,
+      {
+        id: Math.random().toString(36).substring(2, 15),
+        title,
+        description,
+        status: columnId,
+      },
+    ]);
+    console.log(tasks);
+  };
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      {COLUMNS.map((column) => {
-        return (
-          <Column
-            key={column.id}
-            column={column}
-            tasks={tasks.filter((task) => task.status === column.id)}
-          />
-        );
-      })}
-    </DndContext>
+    <div className='w-full h-full flex flex-col justify-center items-center'>
+      <DndContext onDragEnd={handleDragEnd}>
+        <div className='w-full h-full flex justify-center items-center gap-20 '>
+          {COLUMNS.map((column) => {
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasks.filter((task) => task.status === column.id)}
+                addTaskHandler={addTaskHandler}
+              />
+            );
+          })}
+        </div>
+      </DndContext>
+    </div>
   );
 };
 
