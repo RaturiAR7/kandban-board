@@ -1,7 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
-import { Column as ColumnType, Task } from "../types";
+import { Column as ColumnType, Task } from "../constants/types";
 import TaskCard from "./TaskCard";
 import AddTask from "./AddTask";
+import { TaskStatus } from "../constants/types";
 
 type ColumnProps = {
   column: ColumnType;
@@ -9,10 +10,16 @@ type ColumnProps = {
   addTaskHandler: (
     title: string,
     description: string,
-    columnId: Task["status"]
+    columnId: TaskStatus
   ) => void;
+  deleteTaskHandler: (taskId: string) => void;
 };
-const Column = ({ column, tasks, addTaskHandler }: ColumnProps) => {
+const Column = ({
+  column,
+  tasks,
+  addTaskHandler,
+  deleteTaskHandler,
+}: ColumnProps) => {
   const { setNodeRef } = useDroppable({ id: column.id });
 
   return (
@@ -20,10 +27,16 @@ const Column = ({ column, tasks, addTaskHandler }: ColumnProps) => {
       <h2 className='mb-4 font-semibold text-neutral-100'>{column.title}</h2>
       <div ref={setNodeRef} className='flex flex-1 flex-col gap-4'>
         {tasks.map((task) => {
-          return <TaskCard key={task.id} task={task} />;
+          return (
+            <TaskCard
+              key={task.id}
+              task={task}
+              deleteTaskHandler={(taskId) => () => deleteTaskHandler(taskId)}
+            />
+          );
         })}
+        <AddTask addTaskHandler={addTaskHandler} columnId={column.id} />
       </div>
-      <AddTask addTaskHandler={addTaskHandler} columnId={column.id} />
     </div>
   );
 };

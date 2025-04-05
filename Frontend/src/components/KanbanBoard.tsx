@@ -1,7 +1,8 @@
 import { useState } from "react";
-import type { Task, Column as ColumnType } from "../types";
+import type { Task, Column as ColumnType } from "../constants/types";
 import Column from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "To Do" },
   { id: "IN_PROGRESS", title: "In Progress" },
@@ -66,6 +67,9 @@ const KanbanBoard = () => {
     ]);
     console.log(tasks);
   };
+  const deleteTaskHandler = (id: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
 
   return (
     <div className='w-full h-full flex flex-col justify-center items-center'>
@@ -78,6 +82,7 @@ const KanbanBoard = () => {
                 column={column}
                 tasks={tasks.filter((task) => task.status === column.id)}
                 addTaskHandler={addTaskHandler}
+                deleteTaskHandler={deleteTaskHandler}
               />
             );
           })}

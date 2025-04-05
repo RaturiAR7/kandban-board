@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task, TaskStatus } from "../types";
+import { Task, TaskStatus } from "../constants/types";
 
 interface AddTaskProps {
   addTaskHandler: (
@@ -18,6 +18,7 @@ const AddTask = ({ addTaskHandler, columnId }: AddTaskProps) => {
       className='bg-neutral-700 text-white flex justify-center flex-col items-center'
       onSubmit={(e) => {
         e.preventDefault();
+        if (!title || !description) return;
         addTaskHandler(title, description, columnId);
       }}
     >
