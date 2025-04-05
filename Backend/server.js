@@ -17,5 +17,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/boards", require("./routes/boardRoutes"));
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
