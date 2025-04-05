@@ -1,25 +1,14 @@
 const mongoose = require("mongoose");
 
-const TaskSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["todo", "in-progress", "done"],
-      default: "todo",
-      required: true,
-    },
+const TaskSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  status: {
+    type: String,
+    enum: ["TODO", "IN_PROGRESS", "DONE"], // Task status
+    default: "TODO",
   },
-  {
-    timestamps: true,
-  }
-);
+  board: { type: mongoose.Schema.Types.ObjectId, ref: "Board", required: true }, // References the board the task belongs to
+});
 
 module.exports = mongoose.model("Task", TaskSchema);
