@@ -54,15 +54,17 @@ const App = () => {
   return (
     <div className='p-4 bg-black min-h-screen'>
       <div className='flex gap-8'>
-        {COLUMNS.map((column) => {
-          return (
-            <Column
-              key={column.id}
-              column={column}
-              tasks={tasks.filter((task) => task.status === column.id)}
-            />
-          );
-        })}
+        <DndContext onDragEnd={handleDragEnd}>
+          {COLUMNS.map((column) => {
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasks.filter((task) => task.status === column.id)}
+              />
+            );
+          })}
+        </DndContext>
       </div>
     </div>
   );
