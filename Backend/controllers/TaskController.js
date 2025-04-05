@@ -24,4 +24,14 @@ const createTask = async (req, res) => {
   }
 };
 
-module.exports = { createTask };
+const getTasksByBoard = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+    const tasks = await Task.find({ board: boardId });
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching tasks", error });
+  }
+};
+
+module.exports = { createTask, getTasksByBoard };
