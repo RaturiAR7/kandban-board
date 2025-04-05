@@ -72,9 +72,9 @@ const KanbanBoard = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col justify-center items-center'>
+    <div className='w-full h-full flex flex-col justify-center items-center '>
       <DndContext onDragEnd={handleDragEnd}>
-        <div className='w-full h-full flex justify-center items-center gap-20 '>
+        <div className='w-full h-full flex justify-center items-center gap-6 '>
           {COLUMNS.map((column) => {
             return (
               <Column

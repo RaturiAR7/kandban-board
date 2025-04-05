@@ -16,7 +16,7 @@ const TaskCard = ({ task, deleteTaskHandler }: TaskCardProps) => {
     : undefined;
 
   return (
-    <div className=''>
+    <div>
       <img
         src={deleteIcon}
         className='w-5 h-5 cursor-pointer'
@@ -27,7 +27,7 @@ const TaskCard = ({ task, deleteTaskHandler }: TaskCardProps) => {
         {...listeners}
         {...attributes}
         style={style}
-        className='cursor-grab rounded-lg bg-neutral-700 p-4 shadow-sm hover:shadow-md'
+        className='cursor-grab rounded-lg bg-[#3A3A3A]  p-3 shadow-sm hover:shadow-md'
       >
         <div>
           <h3 className='font-medium text-neutral-100'>{task.title}</h3>
