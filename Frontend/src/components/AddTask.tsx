@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { TaskStatus } from "../types";
+import { Task, TaskStatus } from "../types";
 
 interface AddTaskProps {
   addTaskHandler: (
     title: string,
     description: string,
-    columnId: string
+    columnId: Task["status"]
   ) => void;
   columnId: TaskStatus;
 }

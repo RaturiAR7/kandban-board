@@ -6,7 +6,11 @@ import AddTask from "./AddTask";
 type ColumnProps = {
   column: ColumnType;
   tasks: Task[];
-  addTaskHandler: (title: string, description: string) => void;
+  addTaskHandler: (
+    title: string,
+    description: string,
+    columnId: Task["status"]
+  ) => void;
 };
 const Column = ({ column, tasks, addTaskHandler }: ColumnProps) => {
   const { setNodeRef } = useDroppable({ id: column.id });
