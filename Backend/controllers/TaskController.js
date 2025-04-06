@@ -34,4 +34,20 @@ const getTasksByBoard = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasksByBoard };
+const deleteTask = async (req, res) => {
+  try {
+    const { taskId } = req.body;
+    const task = await Task.findByIdAndDelete(taskId);
+    if (!task) return res.status(404).json({ message: "Task not found" });
+    ////Remove task from the board's tasks array
+    const board = await Board.findById(task.board);
+    if (!board) return res.status(404).json({ message: "Board not found" });
+    board.tasks = board.tasks.filter((task) => task.id !== taskId);
+    await board.save();
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting task", error });
+  }
+};
+
+module.exports = { createTask, getTasksByBoard, deleteTask };
