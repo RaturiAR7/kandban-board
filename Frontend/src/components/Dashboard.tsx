@@ -8,21 +8,27 @@ interface Board {
   description: string;
 }
 
-const Dashboard: React.FC = ({ user }) => {
-  const [boards] = useState<Board[]>([user.boards]); // State for boards with type annotation
+interface DashboardProps {
+  user: {
+    boards: Board[];
+  } | null; // Allow user to be null initially
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   const [error, setError] = useState<string>(""); // State for error messages
   const navigate = useNavigate();
 
   const handleBoardClick = (boardId: string) => {
     navigate(`/board/${boardId}`); // Navigate to the specific board
   };
+  if (!user) return <p className='text-red-500'>No boards available</p>; // Handle case where boards are not available
 
   return (
     <div className='min-h-screen bg-[#1E1E1E] text-white p-6'>
       <h1 className='text-3xl font-bold mb-6'>Your Boards</h1>
       {error && <p className='text-red-500'>{error}</p>}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-        {boards.map((board) => (
+        {user?.boards.map((board) => (
           <div
             key={board}
             className='p-4 bg-[#2E2E2E] rounded-lg shadow-md hover:shadow-lg transition-shadow'

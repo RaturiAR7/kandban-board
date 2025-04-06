@@ -2,21 +2,34 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../apis/userApi";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+interface LoginProps {
+  setIsAuthenticated: (value: boolean) => void;
+  setTriggerUserFetch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({
+  setIsAuthenticated,
+  setTriggerUserFetch,
+}) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await loginUser({ email, password });
+
     if (response.status !== 200) {
       setError(response.data.message || "Login failed");
       return;
     }
-    localStorage.setItem("token", response.data.token); // Save token to localStorage
-    navigate("/");
+
+    localStorage.setItem("token", response.data.token);
+
+    setIsAuthenticated(true);
+    setTriggerUserFetch((prev) => !prev); // trigger user re-fetch
+    navigate("/dashboard");
   };
 
   return (

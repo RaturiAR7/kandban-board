@@ -11,7 +11,7 @@ const COLUMNS: ColumnType[] = [
   { id: "DONE", title: "Done" },
 ];
 
-const KanbanBoard = ({ user }) => {
+const KanbanBoard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const { boardId } = useParams();
 
@@ -23,7 +23,7 @@ const KanbanBoard = ({ user }) => {
       setTasks(data);
     };
     loadTasks();
-  }, [user]);
+  }, [boardId]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -53,27 +53,36 @@ const KanbanBoard = ({ user }) => {
         status: columnId,
       },
     ]);
-    await createTask({ title, description, status: columnId }, boardId);
+    const token = localStorage.getItem("token");
+    await createTask({ title, description, status: columnId }, boardId, token);
   };
+
   const deleteTaskHandler = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   return (
-    <div className='w-full h-full flex flex-col justify-center items-center '>
+    <div className='w-full h-full flex flex-col bg-gradient-to-r from-gray-800 to-gray-900 text-white'>
+      {/* Header */}
+      <header className='w-full p-6 bg-gray-700 shadow-md'>
+        <h1 className='text-4xl font-bold text-center'>Kanban Board</h1>
+        <p className='text-center text-gray-300 mt-2'>
+          Organize your tasks efficiently with drag-and-drop functionality.
+        </p>
+      </header>
+
+      {/* Kanban Columns */}
       <DndContext onDragEnd={handleDragEnd}>
-        <div className='w-full h-full flex justify-center items-center gap-6 '>
-          {COLUMNS.map((column) => {
-            return (
-              <Column
-                key={column.id}
-                column={column}
-                tasks={tasks.filter((task) => task.status === column.id)}
-                addTaskHandler={addTaskHandler}
-                deleteTaskHandler={deleteTaskHandler}
-              />
-            );
-          })}
+        <div className='w-full flex justify-center items-start gap-6 p-6 overflow-x-auto'>
+          {COLUMNS.map((column) => (
+            <Column
+              key={column.id}
+              column={column}
+              tasks={tasks.filter((task) => task.status === column.id)}
+              addTaskHandler={addTaskHandler}
+              deleteTaskHandler={deleteTaskHandler}
+            />
+          ))}
         </div>
       </DndContext>
     </div>
