@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import type { Task, Column as ColumnType } from "../constants/types";
 import Column from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { createTask, deleteTask, fetchTasks } from "../apis/taskApi";
+import {
+  createTask,
+  deleteTask,
+  fetchTasks,
+  updateTaskStatus,
+} from "../apis/taskApi";
 import { useParams } from "react-router-dom";
 
 const COLUMNS: ColumnType[] = [
@@ -25,7 +30,7 @@ const KanbanBoard = () => {
     loadTasks();
   }, [boardId]);
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
 
@@ -37,7 +42,10 @@ const KanbanBoard = () => {
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
-    
+    const res = await updateTaskStatus(taskId, newStatus);
+    if (res.status !== 200) {
+      console.error("Failed to update task status:", res.data.message);
+    }
   };
 
   const addTaskHandler = async (
