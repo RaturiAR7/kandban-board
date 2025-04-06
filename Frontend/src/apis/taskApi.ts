@@ -1,5 +1,41 @@
 import axios from "axios";
 
+interface RegisterUserParams {
+  name?: string;
+  email: string;
+  password: string;
+}
+
+export const registerUser = async ({
+  name,
+  email,
+  password,
+}: RegisterUserParams) => {
+  try {
+    const response = await axios.post("http://localhost:5000/api/users/", {
+      name,
+      email,
+      password,
+    });
+    return response;
+  } catch (err: any) {
+    console.log(err.response);
+    return err.response;
+  }
+};
+export const loginUser = async ({ email, password }: RegisterUserParams) => {
+  try {
+    const response = await axios.post("http://localhost:5000/api/users/login", {
+      email,
+      password,
+    });
+    return response;
+  } catch (err: any) {
+    console.log(err.response);
+    return err.response;
+  }
+};
+
 export const fetchTasks = async (boardId: string) => {
   try {
     const response = await axios.get(

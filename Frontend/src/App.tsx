@@ -1,13 +1,26 @@
 import KanbanBoard from "./components/KanbanBoard";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import ProtectedRoute from "./utils/protectedRoute";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
+        <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <div className='p-4 bg-[#1E1E1E] min-h-screen h-full flex justify-center items-center'>
-          <KanbanBoard />
-        </div>
+
+        {/* Protected Routes */}
+        <Route
+          path='/kanban'
+          element={
+            // <ProtectedRoute>
+            <KanbanBoard />
+            // </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
