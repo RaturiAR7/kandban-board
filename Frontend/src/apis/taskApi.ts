@@ -48,3 +48,29 @@ export const createTask = async (
     return error.response;
   }
 };
+
+export const deleteTask = async (taskId: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found in local storage.");
+      return;
+    }
+    const response = await axios.post(
+      `http://localhost:5000/api/tasks/delete`,
+      {
+        taskId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.response;
+  }
+};

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Task, Column as ColumnType } from "../constants/types";
 import Column from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { createTask, fetchTasks } from "../apis/taskApi";
+import { createTask, deleteTask, fetchTasks } from "../apis/taskApi";
 import { useParams } from "react-router-dom";
 
 const COLUMNS: ColumnType[] = [
@@ -37,6 +37,7 @@ const KanbanBoard = () => {
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
+    
   };
 
   const addTaskHandler = async (
@@ -57,8 +58,12 @@ const KanbanBoard = () => {
     await createTask({ title, description, status: columnId }, boardId, token!);
   };
 
-  const deleteTaskHandler = (id: string) => {
+  const deleteTaskHandler = async (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    const response = await deleteTask(id, localStorage.getItem("token")!);
+    if (response.status !== 200) {
+      console.error("Failed to delete task:", response.data.message);
+    }
   };
 
   return (

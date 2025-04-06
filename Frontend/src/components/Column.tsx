@@ -26,6 +26,7 @@ const Column: React.FC<ColumnProps> = ({
   const { setNodeRef } = useDroppable({
     id: column.id,
   });
+  
 
   const handleAddTask = () => {
     if (newTaskTitle.trim() && newTaskDescription.trim()) {
