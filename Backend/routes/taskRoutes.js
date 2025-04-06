@@ -4,10 +4,11 @@ const {
   getTasksByBoard,
   deleteTask,
 } = require("../controllers/TaskController");
+const { protect } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.post("/create", createTask);
-router.get("/board/:boardId", getTasksByBoard);
-router.delete("/delete", deleteTask);
+router.post("/create", protect, createTask);
+router.get("/board/:boardId", protect, getTasksByBoard);
+router.delete("/delete", protect, deleteTask);
 
 module.exports = router;

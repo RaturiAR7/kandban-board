@@ -47,6 +47,11 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: "Error logging in user", error });
   }
 };
+////Get User
+const getUser = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
 ////Generate JWT token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -54,4 +59,4 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, getUser };
