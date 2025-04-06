@@ -68,7 +68,13 @@ const App = () => {
       <Routes>
         <Route
           path='/'
-          element={isAuthenticated ? <Dashboard user={user} /> : <Register />}
+          element={
+            isAuthenticated ? (
+              <Dashboard user={user} setUser={setUser} />
+            ) : (
+              <Register />
+            )
+          }
         />
         <Route
           path='/login'
@@ -84,7 +90,7 @@ const App = () => {
           path='/dashboard'
           element={
             isAuthenticated ? (
-              <Dashboard user={user} />
+              <Dashboard user={user} setUser={setUser} />
             ) : (
               <Navigate to='/login' replace />
             )
