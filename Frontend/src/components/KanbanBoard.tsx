@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Task, Column as ColumnType } from "../constants/types";
 import Column from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { createTask, fetchTasks } from "../apis/taskApi";
 
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "To Do" },
@@ -37,6 +38,15 @@ const INITIAL_TASKS: Task[] = [
 ];
 const KanbanBoard = () => {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+
+  useEffect(() => {
+    const loadTasks = async () => {
+      const data = await fetchTasks("67f177cba6d2acc793cfb9f5");
+      setTasks(data);
+    };
+    loadTasks();
+  }, []);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -51,7 +61,7 @@ const KanbanBoard = () => {
     );
   };
 
-  const addTaskHandler = (
+  const addTaskHandler = async (
     title: string,
     description: string,
     columnId: Task["status"]
@@ -65,7 +75,10 @@ const KanbanBoard = () => {
         status: columnId,
       },
     ]);
-    console.log(tasks);
+    await createTask(
+      { title, description, status: columnId },
+      "67f177cba6d2acc793cfb9f5"
+    );
   };
   const deleteTaskHandler = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
