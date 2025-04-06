@@ -48,7 +48,7 @@ export const fetchTasks = async (boardId: string) => {
     return tasks;
   } catch (error: any) {
     console.log(error.message);
-    throw new Error("Failed to fetch tasks");
+    return error.response;
   }
 };
 
@@ -67,6 +67,6 @@ export const createTask = async (data: object, boardId: string) => {
     return response.data;
   } catch (error: any) {
     console.log(error.message);
-    throw new Error("Failed to create task");
+    return error.response;
   }
 };

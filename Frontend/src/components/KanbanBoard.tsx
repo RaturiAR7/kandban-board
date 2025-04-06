@@ -36,7 +36,7 @@ const INITIAL_TASKS: Task[] = [
     status: "DONE",
   },
 ];
-const KanbanBoard = () => {
+const KanbanBoard = ({ user }) => {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
 
   useEffect(() => {

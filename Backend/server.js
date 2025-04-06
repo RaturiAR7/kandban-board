@@ -1,10 +1,8 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/database");
-const { registerUser } = require("./controllers/userController");
 
 const app = express();
 const PORT = 5000;
