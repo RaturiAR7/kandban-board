@@ -41,11 +41,13 @@ const KanbanBoard = ({ user }) => {
 
   useEffect(() => {
     const loadTasks = async () => {
-      const data = await fetchTasks("67f177cba6d2acc793cfb9f5");
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const data = await fetchTasks(user.boards[0], token);
       setTasks(data);
     };
     loadTasks();
-  }, []);
+  }, [user]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../apis/taskApi";
+import { loginUser } from "../apis/userApi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ const Login = () => {
       return;
     }
     localStorage.setItem("token", response.data.token); // Save token to localStorage
-    navigate("/kanban"); // Redirect to Kanban board
+    navigate("/");
   };
 
   return (
