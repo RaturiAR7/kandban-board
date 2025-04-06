@@ -3,6 +3,7 @@ import type { Task, Column as ColumnType } from "../constants/types";
 import Column from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { createTask, fetchTasks } from "../apis/taskApi";
+import { useParams } from "react-router-dom";
 
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "To Do" },
@@ -10,40 +11,15 @@ const COLUMNS: ColumnType[] = [
   { id: "DONE", title: "Done" },
 ];
 
-const INITIAL_TASKS: Task[] = [
-  {
-    id: "1",
-    title: "Research Project",
-    description: "Gather requirements and create initial documentation",
-    status: "TODO",
-  },
-  {
-    id: "2",
-    title: "Design System",
-    description: "Create component library and design tokens",
-    status: "TODO",
-  },
-  {
-    id: "3",
-    title: "API Integration",
-    description: "Implement REST API endpoints",
-    status: "IN_PROGRESS",
-  },
-  {
-    id: "4",
-    title: "Testing",
-    description: "Write unit tests for core functionality",
-    status: "DONE",
-  },
-];
 const KanbanBoard = ({ user }) => {
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const { boardId } = useParams();
 
   useEffect(() => {
     const loadTasks = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const data = await fetchTasks(user.boards[0], token);
+      const data = await fetchTasks(boardId, token);
       setTasks(data);
     };
     loadTasks();
@@ -77,10 +53,7 @@ const KanbanBoard = ({ user }) => {
         status: columnId,
       },
     ]);
-    await createTask(
-      { title, description, status: columnId },
-      "67f177cba6d2acc793cfb9f5"
-    );
+    await createTask({ title, description, status: columnId }, boardId);
   };
   const deleteTaskHandler = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));

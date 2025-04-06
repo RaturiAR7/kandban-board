@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { registerUser } from "../apis/userApi";
 
 const Register = () => {
@@ -12,12 +11,16 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await registerUser({ name, email, password });
-    if (response.status !== 200) {
-      setError(response.data.message || "Registration failed");
-      return;
+    try {
+      const response = await registerUser({ name, email, password });
+      if (response.status !== 200) {
+        setError(response.data.message || "Registration failed");
+        return;
+      }
+      navigate("/login"); // Redirect to login page after successful registration
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Registration failed");
     }
-    navigate("/login"); // Redirect to login page after successful registration
   };
 
   return (
@@ -86,6 +89,15 @@ const Register = () => {
             Register
           </button>
         </form>
+        <p className='text-center text-gray-400 mt-4'>
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className='text-blue-500 hover:underline'
+          >
+            Login here
+          </button>
+        </p>
       </div>
     </div>
   );

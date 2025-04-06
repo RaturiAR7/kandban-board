@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { validateUser } from "./utils/validateUser";
 import { useEffect, useState } from "react";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,9 +29,13 @@ const App = () => {
         {/* Public Routes */}
         <Route
           path='/'
-          element={isAuthenticated ? <KanbanBoard user={user} /> : <Register />}
+          element={isAuthenticated ? <Dashboard user={user} /> : <Register />}
         />
         <Route path='/login' element={<Login />} />
+        <Route
+          path='/board/:boardId'
+          element={isAuthenticated ? <KanbanBoard user={user} /> : <></>}
+        />
       </Routes>
     </Router>
   );
