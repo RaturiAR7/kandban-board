@@ -32,8 +32,8 @@ const KanbanBoard = () => {
     const taskId = active.id as string;
     const newStatus = over.id as Task["status"];
 
-    setTasks(() =>
-      tasks.map((task) =>
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
@@ -54,7 +54,7 @@ const KanbanBoard = () => {
       },
     ]);
     const token = localStorage.getItem("token");
-    await createTask({ title, description, status: columnId }, boardId, token);
+    await createTask({ title, description, status: columnId }, boardId, token!);
   };
 
   const deleteTaskHandler = (id: string) => {

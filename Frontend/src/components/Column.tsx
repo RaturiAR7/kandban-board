@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useDroppable } from "@dnd-kit/core";
 import type { Task, Column as ColumnType } from "../constants/types";
+import TaskCard from "./TaskCard";
 
 interface ColumnProps {
   column: ColumnType;
@@ -21,6 +23,10 @@ const Column: React.FC<ColumnProps> = ({
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
+  const { setNodeRef } = useDroppable({
+    id: column.id,
+  });
+
   const handleAddTask = () => {
     if (newTaskTitle.trim() && newTaskDescription.trim()) {
       addTaskHandler(newTaskTitle, newTaskDescription, column.id);
@@ -30,23 +36,18 @@ const Column: React.FC<ColumnProps> = ({
   };
 
   return (
-    <div className='flex flex-col bg-gray-800 rounded-lg shadow-lg p-4 w-80'>
+    <div
+      ref={setNodeRef}
+      className='flex flex-col bg-gray-800 rounded-lg shadow-lg p-4 w-80'
+    >
       <h2 className='text-2xl font-bold text-center mb-4'>{column.title}</h2>
       <div className='flex flex-col gap-4'>
         {tasks.map((task) => (
-          <div
+          <TaskCard
             key={task.id}
-            className='p-4 bg-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow'
-          >
-            <h3 className='text-lg font-semibold'>{task.title}</h3>
-            <p className='text-gray-400'>{task.description}</p>
-            <button
-              onClick={() => deleteTaskHandler(task.id)}
-              className='mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700'
-            >
-              Delete
-            </button>
-          </div>
+            task={task}
+            deleteTaskHandler={deleteTaskHandler}
+          />
         ))}
       </div>
       <div className='mt-4'>
