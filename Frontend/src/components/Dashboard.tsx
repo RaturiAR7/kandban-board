@@ -62,7 +62,19 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
 
   return (
     <div className='min-h-screen bg-[#1E1E1E] text-white p-10'>
-      <h1 className='text-3xl font-bold mb-6'>Your Boards</h1>
+      <div className='flex justify-between'>
+        <h1 className='text-3xl font-bold mb-6'>Your Boards</h1>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            setUser(null);
+            navigate("/login");
+          }}
+          className='px-10 py-1 bg-red-500 text-white rounded-md hover:bg-red-700'
+        >
+          LogOut
+        </button>
+      </div>
       <BoardForm onSubmit={handleCreateBoard} text='Create New Board' />
       {error && <p className='text-red-500'>{error}</p>}
       <div className='grid bg-[#2E2E2E] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
