@@ -24,4 +24,14 @@ const createBoard = async (req, res) => {
   }
 };
 
-module.exports = { createBoard };
+const getBoardsByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const boards = await Board.find({ user: userId });
+    res.status(200).json(boards);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching boards", error });
+  }
+};
+
+module.exports = { createBoard, getBoardsByUser };
