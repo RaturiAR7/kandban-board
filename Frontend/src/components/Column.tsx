@@ -13,6 +13,7 @@ interface ColumnProps {
     columnId: Task["status"]
   ) => void;
   deleteTaskHandler: (id: string) => void;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
 const Column: React.FC<ColumnProps> = ({
@@ -20,6 +21,7 @@ const Column: React.FC<ColumnProps> = ({
   tasks,
   addTaskHandler,
   deleteTaskHandler,
+  setTasks,
 }) => {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
@@ -38,7 +40,12 @@ const Column: React.FC<ColumnProps> = ({
 
   const updateTaskHandler = async (taskId, data) => {
     const response = await updateTask(taskId, "", data.title, data.description);
-    console.log(response);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        console.log("task.id:", task.id, "taskId:", taskId);
+        return task.id === taskId ? { ...task, ...data } : task;
+      })
+    );
   };
 
   return (

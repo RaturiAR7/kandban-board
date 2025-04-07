@@ -94,6 +94,7 @@ const KanbanBoard = () => {
               tasks={tasks.filter((task) => task.status === column.id)}
               addTaskHandler={addTaskHandler}
               deleteTaskHandler={deleteTaskHandler}
+              setTasks={setTasks}
             />
           ))}
         </div>
