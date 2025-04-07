@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
+import BoardForm from "./Form"; // Import the reusable form component
 
-// Define the type for a Board
 interface Board {
   _id: string;
   title: string;
@@ -13,20 +13,22 @@ interface Board {
 interface DashboardProps {
   user: {
     boards: Board[];
-  } | null; // Allow user to be null initially
+  } | null;
+  setUser: (user: any) => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
-  const [boards, setBoards] = useState<Board[]>([]); // State for boards
-  const [error, setError] = useState<string>(""); // State for error messages
+  const [boards, setBoards] = useState<Board[]>([]);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   const handleBoardClick = (boardId: string) => {
-    navigate(`/board/${boardId}`); // Navigate to the specific board
+    navigate(`/board/${boardId}`);
   };
-  const boardCreateHandler = async () => {
+
+  const handleCreateBoard = async (title: string, description: string) => {
     try {
-      const response = await createBoard("New Board", "Description", user?._id);
+      const response = await createBoard(title, description, user?._id);
       const token = localStorage.getItem("token");
       const responseUser = await getUser(token); // Fetch updated user data after creating a board
 
@@ -34,32 +36,28 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
       console.log(response);
     } catch (error) {
       console.error("Error creating board:", error);
-      setError("Failed to create board. Please try again."); // Set error message on failure
+      setError("Failed to create board. Please try again.");
     }
   };
+
   useEffect(() => {
     const getBoards = async () => {
-      const data = await fetchBoards(user?._id); // Fetch boards for the user
+      const data = await fetchBoards(user?._id);
       console.log(data);
       if (!data) {
-        setError("Failed to fetch boards. Please try again."); // Set error message if fetching fails
+        setError("Failed to fetch boards. Please try again.");
       }
-      setBoards(data); // Update boards state with fetched data
+      setBoards(data);
     };
     getBoards();
   }, [user]);
 
-  if (!user) return <p className='text-red-500'>No boards available</p>; // Handle case where boards are not available
+  if (!user) return <p className='text-red-500'>No boards available</p>;
 
   return (
-    <div className='min-h-screen bg-[#1E1E1E] text-white p-6'>
+    <div className='min-h-screen bg-[#1E1E1E] text-white p-10'>
       <h1 className='text-3xl font-bold mb-6'>Your Boards</h1>
-      <button
-        onClick={() => boardCreateHandler()}
-        className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
-      >
-        Create New Board
-      </button>
+      <BoardForm onSubmit={handleCreateBoard} text='Create New Board' />
       {error && <p className='text-red-500'>{error}</p>}
       <div className='grid bg-[#2E2E2E] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
         {boards.map((board) => (
