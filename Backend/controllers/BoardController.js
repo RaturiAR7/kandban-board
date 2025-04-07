@@ -37,7 +37,22 @@ const getBoardsByUser = async (req, res) => {
 const deleteBoard = async (req, res) => {
   try {
     const { boardId } = req.params;
-    const board = await Board.findByIdAndDelete({ _id: boardId });
+    // const board = await Board.findByIdAndDelete({ _id: boardId });
+    const board = await Board.findById(boardId);
+    if (!board) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+    // Remove the board from the user's boards array
+    const user = await User.findById(board.user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.boards = user.boards.filter((id) => id.toString() !== boardId);
+    await user.save();
+    // Delete the board
+    await Board.findByIdAndDelete(boardId);
+    // Delete all tasks associated with the board
+    await Task.deleteMany({ board: boardId });
     res.status(200).json({ message: "Deleted board successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting board", error });
