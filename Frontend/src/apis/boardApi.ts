@@ -58,3 +58,25 @@ export const fetchBoards = async (userId: string) => {
     return error.response;
   }
 };
+
+export const deleteBoard = async (boardId: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found in local storage.");
+      return;
+    }
+    const response = await axios.delete(
+      `http://localhost:5000/api/boards/delete/${boardId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.response;
+  }
+};

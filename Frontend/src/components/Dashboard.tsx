@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createBoard, fetchBoards } from "../apis/boardApi";
+import { createBoard, deleteBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
 import BoardForm from "./Form"; // Import the reusable form component
 
@@ -39,6 +39,12 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
       setError("Failed to create board. Please try again.");
     }
   };
+  const handleBoardDelete = async (boardId: string) => {
+    setBoards((prevBoards) =>
+      prevBoards.filter((board) => board._id !== boardId)
+    );
+    await deleteBoard(boardId);
+  };
 
   useEffect(() => {
     const getBoards = async () => {
@@ -67,12 +73,20 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
           >
             <h2 className='text-xl font-semibold mb-2'>{board.title}</h2>
             <p className='text-gray-400 mb-4'>{board.description}</p>
-            <button
-              onClick={() => handleBoardClick(board._id)}
-              className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
-            >
-              Open Board
-            </button>
+            <div className='flex justify-between'>
+              <button
+                onClick={() => handleBoardClick(board._id)}
+                className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+              >
+                Open Board
+              </button>
+              <button
+                onClick={() => handleBoardDelete(board._id)}
+                className='px-4 py-2 bg-red-400 text-white rounded-md hover:bg-red-700'
+              >
+                Delete Board
+              </button>
+            </div>
           </div>
         ))}
       </div>
