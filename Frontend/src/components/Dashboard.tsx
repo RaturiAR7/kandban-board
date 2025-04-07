@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createBoard } from "../apis/boardApi";
+import { createBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
 
 // Define the type for a Board
@@ -17,6 +17,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
+  const [boards, setBoards] = useState<Board[]>([]); // State for boards
   const [error, setError] = useState<string>(""); // State for error messages
   const navigate = useNavigate();
 
@@ -36,6 +37,18 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
       setError("Failed to create board. Please try again."); // Set error message on failure
     }
   };
+  useEffect(() => {
+    const getBoards = async () => {
+      const data = await fetchBoards(user?._id); // Fetch boards for the user
+      console.log(data);
+      if (!data) {
+        setError("Failed to fetch boards. Please try again."); // Set error message if fetching fails
+      }
+      setBoards(data); // Update boards state with fetched data
+    };
+    getBoards();
+  }, [user]);
+
   if (!user) return <p className='text-red-500'>No boards available</p>; // Handle case where boards are not available
 
   return (
@@ -49,15 +62,15 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
       </button>
       {error && <p className='text-red-500'>{error}</p>}
       <div className='grid bg-[#2E2E2E] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-        {user?.boards.map((board) => (
+        {boards.map((board) => (
           <div
-            key={board}
+            key={board._id}
             className='p-4 bg-[#2E2E2E] rounded-lg shadow-md hover:shadow-lg transition-shadow'
           >
-            {/* <h2 className='text-xl font-semibold mb-2'>{board.title}</h2>
-            <p className='text-gray-400 mb-4'>{board.description}</p> */}
+            <h2 className='text-xl font-semibold mb-2'>{board.title}</h2>
+            <p className='text-gray-400 mb-4'>{board.description}</p>
             <button
-              onClick={() => handleBoardClick(board)}
+              onClick={() => handleBoardClick(board._id)}
               className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
             >
               Open Board
