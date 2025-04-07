@@ -4,18 +4,20 @@ const Board = require("../models/boardModel.js");
 const createTask = async (req, res) => {
   try {
     const { title, description, boardId, status } = req.body;
+    ///Find the board to be update
+    const board = await Board.findById(boardId);
+    if (!board) {
+      return res.status(404).json({ message: "Board not found" });
+    }
     /////Create a new task
     const task = await Task.create({
       title,
       description,
       board: boardId,
       status,
+      priority: board.tasks.length + 1, // Set the priority based on the current number of tasks
     });
     ////Add task to the board's tasks array
-    const board = await Board.findById(boardId);
-    if (!board) {
-      return res.status(404).json({ message: "Board not found" });
-    }
     board.tasks.push(task._id);
     await board.save();
     res.status(201).json({ message: "Task created successfully", task });
@@ -42,7 +44,8 @@ const deleteTask = async (req, res) => {
     ////Remove task from the board's tasks array
     const board = await Board.findById(task.board);
     if (!board) return res.status(404).json({ message: "Board not found" });
-    board.tasks = board.tasks.filter((task) => task.id !== taskId);
+    console.log("Board Task:", board.tasks);
+    board.tasks = board.tasks.filter((task) => task._id !== taskId);
     await board.save();
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {

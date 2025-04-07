@@ -50,6 +50,7 @@ const TaskCard = ({
     setEditedDescription(task.description); // Reset description
     setIsEditing(false); // Exit edit mode
   };
+  console.log("Task id", task.id);
 
   return (
     <div>
@@ -57,7 +58,10 @@ const TaskCard = ({
         <img
           src={deleteIcon}
           className='w-5 h-5 cursor-pointer'
-          onClick={() => deleteTaskHandler(task.id)}
+          onClick={() => {
+            console.log(task.id);
+            deleteTaskHandler(task.id);
+          }}
         />
         {!isEditing && (
           <button

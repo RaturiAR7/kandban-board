@@ -53,25 +53,24 @@ const KanbanBoard = () => {
     description: string,
     columnId: Task["status"]
   ) => {
+    const token = localStorage.getItem("token");
+    const data = await createTask(
+      { title, description, status: columnId },
+      boardId,
+      token!
+    );
     setTasks((prevTasks) => [
       ...prevTasks,
-      {
-        id: Math.random().toString(36).substring(2, 15),
-        title,
-        description,
-        status: columnId,
-      },
+      { ...data.task, id: data.task._id.toString() },
     ]);
-    const token = localStorage.getItem("token");
-    await createTask({ title, description, status: columnId }, boardId, token!);
   };
 
   const deleteTaskHandler = async (id: string) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-    const response = await deleteTask(id, localStorage.getItem("token")!);
+    const response = await deleteTask(id);
     if (response.status !== 200) {
       console.error("Failed to delete task:", response.data.message);
     }
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   return (
