@@ -75,7 +75,7 @@ const KanbanBoard = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col bg-gradient-to-r from-gray-800 to-gray-900 text-white'>
+    <div className='w-full min-h-screen flex flex-col bg-gradient-to-r from-gray-500 to-gray-700 text-white'>
       {/* Header */}
       <header className='w-full p-6 bg-gray-700 shadow-md'>
         <h1 className='text-4xl font-bold text-center'>Kanban Board</h1>

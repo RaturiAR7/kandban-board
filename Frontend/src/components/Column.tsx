@@ -26,7 +26,6 @@ const Column: React.FC<ColumnProps> = ({
   const { setNodeRef } = useDroppable({
     id: column.id,
   });
-  
 
   const handleAddTask = () => {
     if (newTaskTitle.trim() && newTaskDescription.trim()) {
@@ -39,7 +38,7 @@ const Column: React.FC<ColumnProps> = ({
   return (
     <div
       ref={setNodeRef}
-      className='flex flex-col bg-gray-800 rounded-lg shadow-lg p-4 w-80'
+      className='flex flex-col bg-gray-800 rounded-lg shadow-lg p-4 w-80 hover:shadow-2xl transition-shadow'
     >
       <h2 className='text-2xl font-bold text-center mb-4'>{column.title}</h2>
       <div className='flex flex-col gap-4'>
