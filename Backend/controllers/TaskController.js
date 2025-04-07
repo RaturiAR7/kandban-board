@@ -50,12 +50,14 @@ const deleteTask = async (req, res) => {
   }
 };
 
-const updateTaskStatus = async (req, res) => {
+const updateTask = async (req, res) => {
   try {
-    const { taskId, status } = req.body;
+    const { taskId, status, title, description } = req.body;
     const task = await Task.findById(taskId);
     if (!task) return res.status(404).json({ message: "Task not found" });
-    task.status = status;
+    if (status) task.status = status;
+    if (title) task.title = title;
+    if (description) task.description = description;
     await task.save();
     res.status(200).json({ message: "Task status updated successfully", task });
   } catch (error) {
@@ -63,4 +65,4 @@ const updateTaskStatus = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasksByBoard, deleteTask, updateTaskStatus };
+module.exports = { createTask, getTasksByBoard, deleteTask, updateTask };

@@ -36,13 +36,8 @@ const Column: React.FC<ColumnProps> = ({
     }
   };
 
-  const updateTaskHandler = async (taskId) => {
-    const response = await updateTask(
-      taskId,
-      "",
-      newTaskTitle,
-      newTaskDescription
-    );
+  const updateTaskHandler = async (taskId, data) => {
+    const response = await updateTask(taskId, "", data.title, data.description);
     console.log(response);
   };
 
@@ -58,7 +53,9 @@ const Column: React.FC<ColumnProps> = ({
             key={task.id}
             task={task}
             deleteTaskHandler={deleteTaskHandler}
-            updateTaskHandler={(taskId) => updateTaskHandler(taskId)}
+            updateTaskHandler={(taskId, data) =>
+              updateTaskHandler(taskId, data)
+            }
           />
         ))}
       </div>
