@@ -56,7 +56,6 @@ export const deleteTask = async (taskId: string) => {
       console.error("No token found in local storage.");
       return;
     }
-    console.log("Deleting task with ID:", taskId);
     const response = await axios.post(
       `http://localhost:5000/api/tasks/delete`,
       {

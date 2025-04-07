@@ -39,13 +39,15 @@ const getTasksByBoard = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const { taskId } = req.body;
+    console.log("Task ID:", taskId);
     const task = await Task.findByIdAndDelete(taskId);
     if (!task) return res.status(404).json({ message: "Task not found" });
     ////Remove task from the board's tasks array
     const board = await Board.findById(task.board);
     if (!board) return res.status(404).json({ message: "Board not found" });
     console.log("Board Task:", board.tasks);
-    board.tasks = board.tasks.filter((task) => task._id !== taskId);
+    board.tasks = board.tasks.filter((task) => task.toString() !== taskId);
+    console.log("Updated Board Tasks:", board.tasks);
     await board.save();
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {

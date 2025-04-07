@@ -50,7 +50,6 @@ const TaskCard = ({
     setEditedDescription(task.description); // Reset description
     setIsEditing(false); // Exit edit mode
   };
-  console.log("Task id", task.id);
 
   return (
     <div>

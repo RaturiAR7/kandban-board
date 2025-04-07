@@ -67,9 +67,6 @@ const KanbanBoard = () => {
 
   const deleteTaskHandler = async (id: string) => {
     const response = await deleteTask(id);
-    if (response.status !== 200) {
-      console.error("Failed to delete task:", response.data.message);
-    }
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
