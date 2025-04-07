@@ -75,7 +75,12 @@ export const deleteTask = async (taskId: string) => {
   }
 };
 
-export const updateTaskStatus = async (taskId: string, status: string) => {
+export const updateTask = async (
+  taskId: string,
+  status?: string,
+  title?: string,
+  description?: string
+) => {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -87,6 +92,8 @@ export const updateTaskStatus = async (taskId: string, status: string) => {
       {
         taskId,
         status,
+        title,
+        description,
       },
       {
         headers: {

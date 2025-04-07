@@ -6,7 +6,7 @@ import {
   createTask,
   deleteTask,
   fetchTasks,
-  updateTaskStatus,
+  updateTask,
 } from "../apis/taskApi";
 import { useParams } from "react-router-dom";
 
@@ -42,7 +42,7 @@ const KanbanBoard = () => {
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
-    const res = await updateTaskStatus(taskId, newStatus);
+    const res = await updateTask(taskId, newStatus);
     if (res.status !== 200) {
       console.error("Failed to update task status:", res.data.message);
     }

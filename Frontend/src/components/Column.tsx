@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import type { Task, Column as ColumnType } from "../constants/types";
 import TaskCard from "./TaskCard";
+import { updateTask } from "../apis/taskApi";
 
 interface ColumnProps {
   column: ColumnType;
@@ -35,6 +36,16 @@ const Column: React.FC<ColumnProps> = ({
     }
   };
 
+  const updateTaskHandler = async (taskId) => {
+    const response = await updateTask(
+      taskId,
+      "",
+      newTaskTitle,
+      newTaskDescription
+    );
+    console.log(response);
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -47,6 +58,7 @@ const Column: React.FC<ColumnProps> = ({
             key={task.id}
             task={task}
             deleteTaskHandler={deleteTaskHandler}
+            updateTaskHandler={(taskId) => updateTaskHandler(taskId)}
           />
         ))}
       </div>

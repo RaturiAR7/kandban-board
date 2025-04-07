@@ -62,7 +62,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
 
   return (
     <div className='min-h-screen bg-[#1E1E1E] text-white p-10'>
-      <div className='flex justify-between'>
+      <div className='flex justify-between items-center'>
         <h1 className='text-3xl font-bold mb-6'>Your Boards</h1>
         <button
           onClick={() => {
@@ -70,18 +70,18 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
             setUser(null);
             navigate("/login");
           }}
-          className='px-10 py-1 bg-red-500 text-white rounded-md hover:bg-red-700'
+          className='px-10 py-2 bg-red-500 text-white rounded-md hover:bg-red-700'
         >
           LogOut
         </button>
       </div>
       <BoardForm onSubmit={handleCreateBoard} text='Create New Board' />
       {error && <p className='text-red-500'>{error}</p>}
-      <div className='grid bg-[#2E2E2E] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-10'>
         {boards.map((board) => (
           <div
             key={board._id}
-            className='p-4 bg-[#2E2E2E] rounded-lg shadow-md hover:shadow-lg transition-shadow'
+            className='p-4 bg-[#2E2E2E] self-center rounded-lg shadow-md hover:shadow-lg transition-shadow'
           >
             <h2 className='text-xl font-semibold mb-2'>{board.title}</h2>
             <p className='text-gray-400 mb-4'>{board.description}</p>
