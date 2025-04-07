@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUser } from "./apis/userApi";
+import Hero from "./components/Hero";
 
 interface User {
   id: string;
@@ -72,7 +73,7 @@ const App = () => {
             isAuthenticated ? (
               <Dashboard user={user} setUser={setUser} />
             ) : (
-              <Register />
+              <Hero />
             )
           }
         />
