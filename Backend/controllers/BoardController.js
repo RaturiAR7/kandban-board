@@ -1,5 +1,6 @@
 const Board = require("../models/boardModel.js");
 const User = require("../models/userModel.js");
+const Task = require("../models/taskModel.js");
 
 const createBoard = async (req, res) => {
   const { title, description, userId } = req.body;
