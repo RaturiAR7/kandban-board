@@ -1,5 +1,6 @@
 // @ts-nocheck
 import axios from "axios";
+import { BASE_URL } from "../constants/URL";
 
 interface BoardProps {
   userId: string;
@@ -18,7 +19,7 @@ export const createBoard = async (
       return;
     }
     const response = await axios.post(
-      "http://localhost:5000/api/boards/create",
+      `${BASE_URL}/boards/create`,
       {
         title,
         description,
@@ -45,14 +46,11 @@ export const fetchBoards = async (userId: string) => {
       console.error("No token found in local storage.");
       return;
     }
-    const response = await axios.get(
-      `http://localhost:5000/api/boards/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/boards/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error: any) {
     console.log(error.message);
@@ -68,7 +66,7 @@ export const deleteBoard = async (boardId: string) => {
       return;
     }
     const response = await axios.delete(
-      `http://localhost:5000/api/boards/delete/${boardId}`,
+      `${BASE_URL}/boards/delete/${boardId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import axios from "axios";
+import { BASE_URL } from "../constants/URL";
 
 interface RegisterUserParams {
   name?: string;
@@ -10,7 +11,7 @@ interface RegisterUserParams {
 
 const registerUser = async ({ name, email, password }: RegisterUserParams) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/users/", {
+    const response = await axios.post(`${BASE_URL}/users/`, {
       name,
       email,
       password,
@@ -23,7 +24,7 @@ const registerUser = async ({ name, email, password }: RegisterUserParams) => {
 };
 const loginUser = async ({ email, password }: RegisterUserParams) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/users/login", {
+    const response = await axios.post(`${BASE_URL}/users/login`, {
       email,
       password,
     });
@@ -37,7 +38,7 @@ const loginUser = async ({ email, password }: RegisterUserParams) => {
 const getUser = async (token) => {
   try {
     if (!token) return null;
-    const response = await axios.get("http://localhost:5000/api/users/user", {
+    const response = await axios.get(`${BASE_URL}/users/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

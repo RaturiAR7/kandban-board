@@ -1,17 +1,15 @@
 // @ts-nocheck
 
 import axios from "axios";
+import { BASE_URL } from "../constants/URL";
 
 export const fetchTasks = async (boardId: string, token: string) => {
   try {
-    const response = await axios.get(
-      `http://localhost:5000/api/tasks/board/${boardId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/tasks/board/${boardId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const tasks = response.data.map((task: any) => ({
       ...task,
       id: task._id.toString(), // Convert MongoDB ObjectId to string
@@ -30,7 +28,7 @@ export const createTask = async (
 ) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/tasks/create`,
+      `${BASE_URL}/tasks/create`,
       {
         title: data.title,
         description: data.description,
@@ -59,7 +57,7 @@ export const deleteTask = async (taskId: string) => {
       return;
     }
     const response = await axios.post(
-      `http://localhost:5000/api/tasks/delete`,
+      `${BASE_URL}/tasks/delete`,
       {
         taskId,
       },
@@ -90,7 +88,7 @@ export const updateTask = async (
       return;
     }
     const response = await axios.post(
-      "http://localhost:5000/api/tasks/update",
+      `${BASE_URL}/tasks/update`,
       {
         taskId,
         status,
