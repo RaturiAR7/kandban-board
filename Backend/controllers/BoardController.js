@@ -1,4 +1,4 @@
-const Board = require("../models/boardModel.js");
+const Board = require("../models/BoardModel.js");
 const User = require("../models/UserModel.js");
 const Task = require("../models/TaskModel.js");
 
