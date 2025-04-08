@@ -24,6 +24,10 @@ const KanbanBoard = () => {
     const loadTasks = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
+      if (!boardId) {
+        console.error("Board ID is undefined");
+        return;
+      }
       const data = await fetchTasks(boardId, token);
       setTasks(data);
     };
@@ -56,7 +60,7 @@ const KanbanBoard = () => {
     const token = localStorage.getItem("token");
     const data = await createTask(
       { title, description, status: columnId },
-      boardId,
+      boardId!,
       token!
     );
     setTasks((prevTasks) => [
@@ -66,7 +70,7 @@ const KanbanBoard = () => {
   };
 
   const deleteTaskHandler = async (id: string) => {
-    const response = await deleteTask(id);
+    await deleteTask(id);
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 

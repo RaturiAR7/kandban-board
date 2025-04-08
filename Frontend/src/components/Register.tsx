@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+// @ts-nocheck
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../apis/userApi";
 

@@ -38,8 +38,13 @@ const Column: React.FC<ColumnProps> = ({
     }
   };
 
-  const updateTaskHandler = async (taskId, data) => {
-    const response = await updateTask(taskId, "", data.title, data.description);
+  interface UpdateTaskData {
+    title: string;
+    description: string;
+  }
+
+  const updateTaskHandler = async (taskId: string, data: UpdateTaskData): Promise<void> => {
+    await updateTask(taskId, "", data.title, data.description);
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
         console.log("task.id:", task.id, "taskId:", taskId);

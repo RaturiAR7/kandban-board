@@ -13,10 +13,18 @@ import { getUser } from "./apis/userApi";
 import Hero from "./components/Hero";
 import NotFound from "./components/NotFound";
 
+interface Board {
+  _id: string;
+  title: string;
+  description: string;
+  // Add other fields as per your backend
+}
+
 interface User {
   id: string;
   name: string;
   email: string;
+  boards: Board[]; // Add boards property to match DashboardProps
   // Add other fields as per your backend
 }
 
@@ -89,23 +97,9 @@ const App = () => {
         />
         <Route path='/register' element={<Register />} />
         <Route
-          path='/dashboard'
-          element={
-            isAuthenticated ? (
-              <Dashboard user={user} setUser={setUser} />
-            ) : (
-              <Navigate to='/login' replace />
-            )
-          }
-        />
-        <Route
           path='/board/:boardId'
           element={
-            isAuthenticated ? (
-              <KanbanBoard user={user} />
-            ) : (
-              <Navigate to='/login' replace />
-            )
+            isAuthenticated ? <KanbanBoard /> : <Navigate to='/login' replace />
           }
         />
         {/* Catch-all route for non-existent paths */}

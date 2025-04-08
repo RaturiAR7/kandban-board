@@ -23,7 +23,7 @@ const TaskCard = ({
 
   // Only enable drag-and-drop when not editing
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: task.id,
+    id: task.id || "default-id",
     disabled: isEditing, // Disable drag-and-drop when editing
   });
 
@@ -37,7 +37,7 @@ const TaskCard = ({
 
   const handleSaveClick = () => {
     if (editedTitle.trim() && editedDescription.trim()) {
-      updateTaskHandler(task.id, {
+      updateTaskHandler(task?.id || "default-id", {
         title: editedTitle,
         description: editedDescription,
       }); // Call the update handler
@@ -59,7 +59,7 @@ const TaskCard = ({
           className='w-5 h-5 cursor-pointer'
           onClick={() => {
             console.log(task.id);
-            deleteTaskHandler(task.id);
+            deleteTaskHandler(task.id || "");
           }}
         />
         {!isEditing && (

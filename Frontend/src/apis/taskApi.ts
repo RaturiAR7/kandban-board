@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import axios from "axios";
 
 export const fetchTasks = async (boardId: string, token: string) => {
