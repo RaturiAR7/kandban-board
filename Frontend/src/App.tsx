@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { getUser } from "./apis/userApi";
 import Hero from "./components/Hero";
+import NotFound from "./components/NotFound";
 
 interface User {
   id: string;
@@ -107,6 +108,8 @@ const App = () => {
             )
           }
         />
+        {/* Catch-all route for non-existent paths */}
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );
