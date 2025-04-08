@@ -3,7 +3,7 @@ const {
   createBoard,
   getBoardsByUser,
   deleteBoard,
-} = require("../controllers/BoardController");
+} = require("../controllers/boardController");
 const { protect } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
