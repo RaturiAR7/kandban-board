@@ -29,7 +29,7 @@ const Login: React.FC<LoginProps> = ({
 
     setIsAuthenticated(true);
     setTriggerUserFetch((prev) => !prev); // trigger user re-fetch
-    navigate("/dashboard");
+    navigate("/");
   };
 
   return (
