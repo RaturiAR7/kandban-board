@@ -43,7 +43,6 @@ const getUser = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("User data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);

@@ -41,7 +41,6 @@ export const createTask = async (
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     console.log(error.message);
@@ -67,7 +66,6 @@ export const deleteTask = async (taskId: string) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     console.log(error.message);
@@ -101,7 +99,6 @@ export const updateTask = async (
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error: any) {
     console.log(error.message);

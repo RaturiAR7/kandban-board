@@ -15,7 +15,6 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await registerUser({ name, email, password });
-      console.log(response);
       if (response.status !== 201) {
         setError(response.data.message || "Registration failed");
         return;

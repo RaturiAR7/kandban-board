@@ -47,7 +47,6 @@ const Column: React.FC<ColumnProps> = ({
     await updateTask(taskId, "", data.title, data.description);
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
-        console.log("task.id:", task.id, "taskId:", taskId);
         return task.id === taskId ? { ...task, ...data } : task;
       })
     );

@@ -58,7 +58,6 @@ const TaskCard = ({
           src={deleteIcon}
           className='w-5 h-5 cursor-pointer'
           onClick={() => {
-            console.log(task.id);
             deleteTaskHandler(task.id || "");
           }}
         />

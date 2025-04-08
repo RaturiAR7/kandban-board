@@ -34,7 +34,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
       const responseUser = await getUser(token); // Fetch updated user data after creating a board
 
       setUser(responseUser); // Update user state with the new board
-      console.log(response);
     } catch (error) {
       console.error("Error creating board:", error);
       setError("Failed to create board. Please try again.");
@@ -50,7 +49,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
   useEffect(() => {
     const getBoards = async () => {
       const data = await fetchBoards(user?._id);
-      console.log(data);
       if (!data) {
         setError("Failed to fetch boards. Please try again.");
       }
