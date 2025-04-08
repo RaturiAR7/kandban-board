@@ -113,6 +113,17 @@ const TaskCard = ({
               <p className='mt-2 text-sm text-neutral-400'>
                 {task.description}
               </p>
+              <div className='mt-4 text-sm text-neutral-500'>
+                <p>
+                  Priority: <span className='font-bold'>{task.priority}</span>
+                </p>
+                <p>
+                  Created:{" "}
+                  <span className='font-bold'>
+                    {new Date(task.createdAt).toLocaleDateString()}
+                  </span>
+                </p>
+              </div>
             </>
           )}
         </div>
