@@ -108,17 +108,30 @@ const TaskCard = ({
             </>
           ) : (
             <>
-              <h3 className='font-medium text-neutral-100'>{task.title}</h3>
-              <p className='mt-2 text-sm text-neutral-400'>
+              <h3 className='text-xl font-bold text-neutral-100'>
+                {task.title}
+              </h3>
+              <p className='mt-2 text-base font-semibold text-neutral-100'>
                 {task.description}
               </p>
-              <div className='mt-4 text-sm text-neutral-500'>
+              <div className='mt-4 text-sm text-neutral-100'>
                 <p>
-                  Priority: <span className='font-bold'>{task.priority}</span>
+                  Priority:{" "}
+                  <span
+                    className={`${
+                      task.priority === "High"
+                        ? "text-green-400"
+                        : task.priority === "Medium"
+                        ? "text-amber-200"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {task.priority}
+                  </span>
                 </p>
                 <p>
                   Created:{" "}
-                  <span className='font-bold'>
+                  <span className=''>
                     {new Date(task.createdAt).toLocaleDateString()}
                   </span>
                 </p>
