@@ -44,7 +44,7 @@ const Column: React.FC<ColumnProps> = ({
     e.preventDefault();
     console.log("FormData", formData);
     if (formData.title.trim() && formData.title.trim() && formData.priority) {
-      addTaskHandler(formData.title, formData.description, column.id);
+      addTaskHandler(formData.title, formData.description, column.id,formData.priority);
       setFormData({
         title: "",
         description: "",

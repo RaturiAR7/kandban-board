@@ -15,7 +15,7 @@ const createTask = async (req, res) => {
       description,
       board: boardId,
       status,
-      priority: priority ? priority : "High", // Set the priority based on the current number of tasks
+      priority: priority, // Set the priority based on the current number of tasks
     });
     ////Add task to the board's tasks array
     board.tasks.push(task._id);

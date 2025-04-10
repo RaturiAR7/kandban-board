@@ -55,11 +55,12 @@ const KanbanBoard = () => {
   const addTaskHandler = async (
     title: string,
     description: string,
-    columnId: Task["status"]
+    columnId: Task["status"],
+    priority: string
   ) => {
     const token = localStorage.getItem("token");
     const data = await createTask(
-      { title, description, status: columnId },
+      { title, description, status: columnId, priority },
       boardId!,
       token!
     );

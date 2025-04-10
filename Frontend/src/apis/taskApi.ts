@@ -34,6 +34,7 @@ export const createTask = async (
         description: data.description,
         boardId,
         status: data.status,
+        priority: data.priority,
       },
       {
         headers: {
