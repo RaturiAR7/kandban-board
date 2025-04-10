@@ -3,7 +3,7 @@ const Board = require("../models/BoardModel.js");
 
 const createTask = async (req, res) => {
   try {
-    const { title, description, boardId, status } = req.body;
+    const { title, description, boardId, status, priority } = req.body;
     ///Find the board to be update
     const board = await Board.findById(boardId);
     if (!board) {
@@ -15,7 +15,7 @@ const createTask = async (req, res) => {
       description,
       board: boardId,
       status,
-      priority: board.tasks.length + 1, // Set the priority based on the current number of tasks
+      priority: priority ? priority : "High", // Set the priority based on the current number of tasks
     });
     ////Add task to the board's tasks array
     board.tasks.push(task._id);
