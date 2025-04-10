@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getUser } from "./apis/userApi";
 import Hero from "./components/Hero";
 import NotFound from "./components/NotFound";
+import Test from "./components/common/Test";
 
 interface Board {
   _id: string;
@@ -103,6 +104,7 @@ const App = () => {
           }
         />
         {/* Catch-all route for non-existent paths */}
+        <Route path='/test' element={<Test />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
