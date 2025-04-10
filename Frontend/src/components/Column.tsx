@@ -12,7 +12,8 @@ interface ColumnProps {
   addTaskHandler: (
     title: string,
     description: string,
-    columnId: Task["status"]
+    columnId: Task["status"],
+    priority: string
   ) => void;
   deleteTaskHandler: (id: string) => void;
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
@@ -44,7 +45,12 @@ const Column: React.FC<ColumnProps> = ({
     e.preventDefault();
     console.log("FormData", formData);
     if (formData.title.trim() && formData.title.trim() && formData.priority) {
-      addTaskHandler(formData.title, formData.description, column.id,formData.priority);
+      addTaskHandler(
+        formData.title,
+        formData.description,
+        column.id,
+        formData.priority
+      );
       setFormData({
         title: "",
         description: "",
