@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Modal from "./Modal";
+import { TASK_INPUT_FIELDS } from "../../constants/types";
 
 const Test = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,24 +11,6 @@ const Test = () => {
     description: "",
     status: "TODO",
   });
-  const fields = [
-    {
-      name: "title",
-      label: "Task Title",
-      type: "text",
-    },
-    {
-      name: "description",
-      label: "Task Description",
-      type: "text",
-    },
-    {
-      name: "status",
-      label: "Task Status",
-      type: "select",
-      options: ["TODO", "IN_PROGRESS", "DONE"],
-    },
-  ];
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -49,7 +32,7 @@ const Test = () => {
       {isModalOpen && (
         <Modal
           title='Enter Task'
-          fields={fields}
+          fields={TASK_INPUT_FIELDS}
           onClose={toggleModal}
           data={formData}
           setData={setFormData}

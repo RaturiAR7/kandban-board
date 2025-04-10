@@ -3,6 +3,8 @@ import { useDroppable } from "@dnd-kit/core";
 import type { Task, Column as ColumnType } from "../constants/types";
 import TaskCard from "./TaskCard";
 import { updateTask } from "../apis/taskApi";
+import { TASK_INPUT_FIELDS } from "../constants/types";
+import Modal from "./common/Modal";
 
 interface ColumnProps {
   column: ColumnType;
@@ -23,19 +25,33 @@ const Column: React.FC<ColumnProps> = ({
   deleteTaskHandler,
   setTasks,
 }) => {
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [newTaskDescription, setNewTaskDescription] = useState("");
-
   const { setNodeRef } = useDroppable({
     id: column.id,
   });
 
-  const handleAddTask = () => {
-    if (newTaskTitle.trim() && newTaskDescription.trim()) {
-      addTaskHandler(newTaskTitle, newTaskDescription, column.id);
-      setNewTaskTitle("");
-      setNewTaskDescription("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    priority: "High",
+  });
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleAddTask = (e: Event) => {
+    e.preventDefault();
+    console.log("FormData", formData);
+    if (formData.title.trim() && formData.title.trim() && formData.priority) {
+      addTaskHandler(formData.title, formData.description, column.id);
+      setFormData({
+        title: "",
+        description: "",
+        priority: "High",
+      });
     }
+    setIsModalOpen(false);
   };
 
   interface UpdateTaskData {
@@ -43,7 +59,10 @@ const Column: React.FC<ColumnProps> = ({
     description: string;
   }
 
-  const updateTaskHandler = async (taskId: string, data: UpdateTaskData): Promise<void> => {
+  const updateTaskHandler = async (
+    taskId: string,
+    data: UpdateTaskData
+  ): Promise<void> => {
     await updateTask(taskId, "", data.title, data.description);
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
@@ -71,22 +90,19 @@ const Column: React.FC<ColumnProps> = ({
         ))}
       </div>
       <div className='mt-4'>
-        <input
-          type='text'
-          placeholder='Task Title'
-          value={newTaskTitle}
-          onChange={(e) => setNewTaskTitle(e.target.value)}
-          className='w-full p-2 mb-2 bg-gray-700 text-white rounded-md'
-        />
-        <textarea
-          placeholder='Task Description'
-          value={newTaskDescription}
-          onChange={(e) => setNewTaskDescription(e.target.value)}
-          className='w-full p-2 bg-gray-700 text-white rounded-md'
-        />
+        {isModalOpen && (
+          <Modal
+            title='Enter Task'
+            fields={TASK_INPUT_FIELDS}
+            onClose={toggleModal}
+            data={formData}
+            setData={setFormData}
+            onsubmitHandler={handleAddTask}
+          />
+        )}
         <button
-          onClick={handleAddTask}
-          className='w-full mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+          onClick={toggleModal}
+          className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
         >
           Add Task
         </button>

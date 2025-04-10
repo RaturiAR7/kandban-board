@@ -1,6 +1,16 @@
-import { useEffect, useState } from "react";
+//// @ts-nocheck
 
-const Modal = ({ fields, data, setData, title, onClose }: any) => {
+import { useEffect, useState } from "react";
+import { TaskInputField } from "../../constants/types";
+
+const Modal = ({
+  fields,
+  data,
+  setData,
+  title,
+  onClose,
+  onsubmitHandler,
+}: any) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -8,10 +18,6 @@ const Modal = ({ fields, data, setData, title, onClose }: any) => {
     setIsVisible(true);
     return () => setIsVisible(false); // Cleanup when unmounted
   }, []);
-  const onsubmitHandler = (e: Event) => {
-    e.preventDefault();
-    console.log(data);
-  };
 
   return (
     <div
@@ -34,8 +40,8 @@ const Modal = ({ fields, data, setData, title, onClose }: any) => {
           ✖
         </button>
         <h2 className='text-lg font-bold mb-4'>{title}</h2>
-        <form onSubmit={onsubmitHandler}>
-          {fields.map((field, index) => (
+        <form onSubmit={onsubmitHandler} className='flex flex-col gap-4'>
+          {fields?.map((field: TaskInputField, index: number) => (
             <div key={index}>
               <label
                 htmlFor={field.name}
@@ -43,24 +49,48 @@ const Modal = ({ fields, data, setData, title, onClose }: any) => {
               >
                 {field.label}
               </label>
-              <input
-                type={field.type}
-                name={field.name}
-                id={field.name}
-                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                placeholder={field.placeholder}
-                value={data[field.name]}
-                onChange={(e) => {
-                  setData((prevData: any) => ({
-                    ...prevData,
-                    [field.name]: e.target.value,
-                  }));
-                }}
-                required
-              />
+
+              {field.type === "select" ? (
+                <select
+                  name={field.name}
+                  id={field.name}
+                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                  value={data[field.name]} // Bind the selected value to the state
+                  onChange={(e) => {
+                    setData((prevData: Record<string, any>) => ({
+                      ...prevData,
+                      [field.name]: e.target.value, // Update the state with the selected value
+                    }));
+                  }}
+                >
+                  {field.options?.map((option: string, index: number) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  name={field.name}
+                  id={field.name}
+                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                  placeholder={field.placeholder}
+                  value={data[field.name]}
+                  onChange={(e) => {
+                    setData((prevData: Record<string, any>) => ({
+                      ...prevData,
+                      [field.name]: e.target.value,
+                    }));
+                  }}
+                  required
+                />
+              )}
             </div>
           ))}
-          <button className=' '>Submit</button>
+          <button className='bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg w-1/3 mx-auto hover:bg-gray-200'>
+            Submit
+          </button>
         </form>
       </div>
     </div>
