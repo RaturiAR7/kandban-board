@@ -10,7 +10,7 @@ const TaskSchema = new mongoose.Schema(
       default: "TODO",
     },
     priority: {
-      type: Number,
+      type: String,
     },
     board: {
       type: mongoose.Schema.Types.ObjectId,
