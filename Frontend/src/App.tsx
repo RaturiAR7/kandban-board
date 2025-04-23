@@ -19,7 +19,6 @@ interface Board {
   _id: string;
   title: string;
   description: string;
-  // Add other fields as per your backend
 }
 
 interface User {
@@ -27,19 +26,14 @@ interface User {
   name: string;
   email: string;
   boards: Board[]; // Add boards property to match DashboardProps
-  // Add other fields as per your backend
+  createdAt: string;
+  updatedAt: string;
 }
 
 const App = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const {
-    user,
-    setUser,
-    isAuthenticated,
-    setIsAuthenticated,
-    triggerUserFetch,
-    setTriggerUserFetch,
-  } = useUserStore((state) => state);
+  const { setUser, isAuthenticated, setIsAuthenticated, triggerUserFetch } =
+    useUserStore((state) => state);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,7 +59,6 @@ const App = () => {
         setIsAuthenticated(false);
         setUser(null);
       }
-
       setLoading(false);
     };
 
@@ -83,25 +76,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path='/'
-          element={
-            isAuthenticated ? (
-              <Dashboard user={user} setUser={setUser} />
-            ) : (
-              <Hero />
-            )
-          }
-        />
-        <Route
-          path='/login'
-          element={
-            <Login
-              setIsAuthenticated={setIsAuthenticated}
-              setTriggerUserFetch={setTriggerUserFetch}
-            />
-          }
-        />
+        <Route path='/' element={isAuthenticated ? <Dashboard /> : <Hero />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route
           path='/board/:boardId'

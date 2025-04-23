@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createBoard, deleteBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
 import BoardForm from "./Form"; // Import the reusable form component
+import { useUserStore } from "../stores/UserStore";
 
 interface Board {
   _id: string;
@@ -11,14 +12,10 @@ interface Board {
   description: string;
 }
 
-interface DashboardProps {
-  user: {
-    boards: Board[];
-  } | null;
-  setUser: (user: any) => void;
-}
+const Dashboard = () => {
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
-const Dashboard: React.FC<DashboardProps> = ({ user, setUser }) => {
   const [boards, setBoards] = useState<Board[]>([]);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();

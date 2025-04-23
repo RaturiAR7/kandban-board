@@ -1,21 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../apis/userApi";
+import { useUserStore } from "../stores/UserStore";
 
-interface LoginProps {
-  setIsAuthenticated: (value: boolean) => void;
-  setTriggerUserFetch: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const Login = () => {
+  const setIsAuthenticated = useUserStore((state) => state.setIsAuthenticated);
+  const setTriggerUserFetch = useUserStore(
+    (state) => state.setTriggerUserFetch
+  );
 
-const Login: React.FC<LoginProps> = ({
-  setIsAuthenticated,
-  setTriggerUserFetch,
-}) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  
   const navigate = useNavigate();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await loginUser({ email, password });
@@ -28,7 +26,7 @@ const Login: React.FC<LoginProps> = ({
     localStorage.setItem("token", response.data.token);
 
     setIsAuthenticated(true);
-    setTriggerUserFetch((prev) => !prev); // trigger user re-fetch
+    setTriggerUserFetch(!useUserStore.getState().triggerUserFetch); // trigger user re-fetch
     navigate("/");
   };
 
