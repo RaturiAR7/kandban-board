@@ -26,7 +26,7 @@ const Modal = ({
       }`}
     >
       <div
-        className={`bg-white shadow-md rounded-lg w-1/3 p-4 relative transform transition-transform duration-300 ${
+        className={`bg-white shadow-md rounded-lg backdrop-blur-2xl  w-1/3 p-4 relative transform transition-transform duration-300 ${
           isVisible ? "scale-100" : "scale-75"
         }`}
       >

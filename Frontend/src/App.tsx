@@ -13,6 +13,7 @@ import { getUser } from "./apis/userApi";
 import Hero from "./components/Hero";
 import NotFound from "./components/NotFound";
 import Test from "./components/common/Test";
+import { useUserStore } from "./stores/UserStore";
 
 interface Board {
   _id: string;
@@ -30,10 +31,15 @@ interface User {
 }
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [triggerUserFetch, setTriggerUserFetch] = useState<boolean>(false);
+  const {
+    user,
+    setUser,
+    isAuthenticated,
+    setIsAuthenticated,
+    triggerUserFetch,
+    setTriggerUserFetch,
+  } = useUserStore((state) => state);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -64,7 +70,7 @@ const App = () => {
     };
 
     fetchUser();
-  }, [triggerUserFetch]);
+  }, [triggerUserFetch, setIsAuthenticated, setUser]);
 
   if (loading) {
     return (
