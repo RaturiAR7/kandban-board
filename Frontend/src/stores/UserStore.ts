@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 type UserStore = {
   user: {
-    _id: string;
+    id: string;
     name: string;
     email: string;
     boards: object[];
