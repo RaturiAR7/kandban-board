@@ -14,6 +14,7 @@ import Hero from "./components/Hero";
 import NotFound from "./components/NotFound";
 import Test from "./components/common/Test";
 import { useUserStore } from "./stores/UserStore";
+import Loader from "./components/common/Loader";
 
 interface Board {
   _id: string;
@@ -66,11 +67,7 @@ const App = () => {
   }, [triggerUserFetch, setIsAuthenticated, setUser]);
 
   if (loading) {
-    return (
-      <div className='flex justify-center items-center min-h-screen bg-[#1E1E1E] text-white'>
-        <div className='animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500'></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
