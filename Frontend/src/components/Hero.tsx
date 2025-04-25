@@ -1,6 +1,7 @@
 import { BackgroundBeams } from "../constants/UI/background-beams";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { BackgroundGradient } from "../constants/UI/bg-gradient";
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -36,38 +37,44 @@ const Hero: React.FC = () => {
       <section className='py-16 px-6'>
         <h2 className='text-3xl font-bold text-center mb-12'>Features</h2>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-          <div className='flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg'>
-            <div className='text-blue-500 text-4xl mb-4'>
-              <i className='fas fa-tasks'></i>
+          <BackgroundGradient>
+            <div className='flex flex-col items-center text-center bg-black p-6 rounded-2xl shadow-lg'>
+              <div className='text-blue-500 text-4xl mb-4'>
+                <i className='fas fa-tasks'></i>
+              </div>
+              <h3 className='text-xl font-semibold mb-2'>Task Management</h3>
+              <p className='text-gray-400'>
+                Create, organize, and prioritize your tasks with ease using our
+                Kanban board.
+              </p>
             </div>
-            <h3 className='text-xl font-semibold mb-2'>Task Management</h3>
-            <p className='text-gray-400'>
-              Create, organize, and prioritize your tasks with ease using our
-              Kanban board.
-            </p>
-          </div>
-          <div className='flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg'>
-            <div className='text-blue-500 text-4xl mb-4'>
-              <i className='fas fa-users'></i>
+          </BackgroundGradient>
+          <BackgroundGradient>
+            <div className='flex flex-col items-center text-center bg-black p-6 rounded-2xl shadow-lg'>
+              <div className='text-blue-500 text-4xl mb-4'>
+                <i className='fas fa-users'></i>
+              </div>
+              <h3 className='text-xl font-semibold mb-2'>Team Collaboration</h3>
+              <p className='text-gray-400'>
+                Collaborate with your team in real-time and stay on top of your
+                projects.
+              </p>
             </div>
-            <h3 className='text-xl font-semibold mb-2'>Team Collaboration</h3>
-            <p className='text-gray-400'>
-              Collaborate with your team in real-time and stay on top of your
-              projects.
-            </p>
-          </div>
-          <div className='flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg'>
-            <div className=' text-4xl mb-4'>
-              <i className='fas fa-chart-line'></i>
+          </BackgroundGradient>
+          <BackgroundGradient>
+            <div className='flex flex-col items-center text-center bg-black p-6 rounded-2xl shadow-lg'>
+              <div className=' text-4xl mb-4'>
+                <i className='fas fa-chart-line'></i>
+              </div>
+              <h3 className='text-xl font-semibold mb-2'>
+                Productivity Insights
+              </h3>
+              <p className='text-gray-400'>
+                Track your progress and gain insights to improve your
+                productivity.
+              </p>
             </div>
-            <h3 className='text-xl font-semibold mb-2'>
-              Productivity Insights
-            </h3>
-            <p className='text-gray-400'>
-              Track your progress and gain insights to improve your
-              productivity.
-            </p>
-          </div>
+          </BackgroundGradient>
         </div>
         <BackgroundBeams />
       </section>
