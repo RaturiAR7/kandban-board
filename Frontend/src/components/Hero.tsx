@@ -1,4 +1,3 @@
-import { BackgroundBeams } from "../constants/UI/background-beams";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BackgroundGradient } from "../constants/UI/bg-gradient";
@@ -8,7 +7,6 @@ const Hero: React.FC = () => {
 
   return (
     <div className='min-h-screen bg-gradient-to-r bg-black text-white'>
-      <BackgroundBeams />
       {/* Hero Section */}
       <header className='flex flex-col items-center justify-center text-center py-20 px-6'>
         <h1 className='text-5xl font-bold mb-6'>
