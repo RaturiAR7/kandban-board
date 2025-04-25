@@ -1,3 +1,4 @@
+import { BackgroundBeams } from "../constants/UI/background-beams";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,7 +6,7 @@ const Hero: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white'>
+    <div className='min-h-screen bg-gradient-to-r bg-black text-white'>
       {/* Hero Section */}
       <header className='flex flex-col items-center justify-center text-center py-20 px-6'>
         <h1 className='text-5xl font-bold mb-6'>
@@ -56,7 +57,7 @@ const Hero: React.FC = () => {
             </p>
           </div>
           <div className='flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg'>
-            <div className='text-blue-500 text-4xl mb-4'>
+            <div className=' text-4xl mb-4'>
               <i className='fas fa-chart-line'></i>
             </div>
             <h3 className='text-xl font-semibold mb-2'>
@@ -68,10 +69,11 @@ const Hero: React.FC = () => {
             </p>
           </div>
         </div>
+        <BackgroundBeams />
       </section>
 
       {/* Call-to-Action Section */}
-      <section className='py-16 bg-blue-600 text-center'>
+      <section className='py-16 text-center'>
         <h2 className='text-3xl font-bold mb-4'>Ready to Get Started?</h2>
         <p className='text-lg text-gray-200 mb-8'>
           Sign up today and take your productivity to the next level.
