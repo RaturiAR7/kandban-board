@@ -5,18 +5,14 @@ import { createBoard, deleteBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
 import BoardForm from "./Form"; // Import the reusable form component
 import { useUserStore } from "../stores/UserStore";
-
-interface Board {
-  _id: string;
-  title: string;
-  description: string;
-}
+import { useBoardStore } from "../stores/BoardStore";
 
 const Dashboard = () => {
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
+  const boards = useBoardStore((state) => state.boards);
+  const setBoards = useBoardStore((state) => state.setBoards);
 
-  const [boards, setBoards] = useState<Board[]>([]);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
@@ -26,7 +22,7 @@ const Dashboard = () => {
 
   const handleCreateBoard = async (title: string, description: string) => {
     try {
-      const response = await createBoard(title, description, user?._id);
+      await createBoard(title, description, user?._id);
       const token = localStorage.getItem("token");
       const responseUser = await getUser(token); // Fetch updated user data after creating a board
 
@@ -37,9 +33,8 @@ const Dashboard = () => {
     }
   };
   const handleBoardDelete = async (boardId: string) => {
-    setBoards((prevBoards) =>
-      prevBoards.filter((board) => board._id !== boardId)
-    );
+    const updatedBoards = boards.filter((board) => board._id !== boardId);
+    setBoards(updatedBoards);
     await deleteBoard(boardId);
   };
 
@@ -52,7 +47,8 @@ const Dashboard = () => {
       setBoards(data);
     };
     getBoards();
-  }, [user]);
+  }, [user, setBoards]);
+  console.log("Boards:", boards);
 
   if (!user) return <p className='text-red-500'>No boards available</p>;
 
@@ -74,7 +70,7 @@ const Dashboard = () => {
       <BoardForm onSubmit={handleCreateBoard} text='Create New Board' />
       {error && <p className='text-red-500'>{error}</p>}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-10'>
-        {boards.map((board) => (
+        {boards?.map((board) => (
           <div
             key={board._id}
             className='p-4 bg-[#2E2E2E] self-center rounded-lg shadow-md hover:shadow-lg transition-shadow'
