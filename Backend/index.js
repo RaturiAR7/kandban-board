@@ -18,6 +18,10 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/boards", require("./routes/boardRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 
+app.get("/", (req, res) => {
+  res.send("Kanban backend is running ✅");
+});
+
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 }
