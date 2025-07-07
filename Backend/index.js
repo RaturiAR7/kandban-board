@@ -18,4 +18,9 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/boards", require("./routes/boardRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+}
+
+// export for Vercel
+module.exports = app;
