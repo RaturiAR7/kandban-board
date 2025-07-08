@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+.kanban-columns-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  width: 100%;
+  overflow-x: auto;
+  justify-content: center;
+  align-items: stretch;
+  background: linear-gradient(
+    to right,
+    #6b7280,
+    #374151
+  ); /* optional, matches your Tailwind bg */
+}
+
+@media (min-width: 640px) {
+  .kanban-columns-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+}
+
+/* Optional: Give each column a fixed width on desktop, full width on mobile */
+.kanban-column {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .kanban-column {
+    width: 20rem;
+    max-width: 20rem;
+    flex-shrink: 0;
+  }
+}

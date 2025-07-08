@@ -87,7 +87,7 @@ const KanbanBoard = () => {
 
       {/* Kanban Columns */}
       <DndContext onDragEnd={handleDragEnd}>
-        <div className='w-full flex justify-center items-start gap-6 p-6 overflow-x-auto'>
+        <div className='kanban-columns-container'>
           {COLUMNS.map((column) => (
             <Column
               key={column.id}
