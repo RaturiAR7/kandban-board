@@ -1,34 +1,74 @@
 const User = require("../models/UserModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { z } = require("zod");
 
-///Register a new user
+// Define a schema for registration
+const registerSchema = z.object({
+  name: z.string().min(1, { error: "Name cannot be empty" }),
+  email: z.email({ error: "Invalid email format" }),
+  password: z
+    .string()
+    .min(8, { error: "Password cannot be less than 8 letters" }),
+});
+
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    ///Check if the user already exists
+    // Validate request body
+    const result = registerSchema.safeParse(req.body);
+    if (!result.success) {
+      res.status(400).json({
+        message: result.error._zod.def[0].message,
+      });
+      return;
+    }
+
+    // Use validated data instead of req.body
+    const { name, email, password } = result.data;
+
+    // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    ///Hash the password
+
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    ///Create the user
+
+    // Create the user
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
     });
+
     res.status(201).json({ message: "User created successfully", user });
+    return;
   } catch (error) {
-    res.status(500).json({ message: "Error registering user", error });
+    res.status(500).json({ message: "Error registering user" });
+    return;
   }
 };
+
+const loginSchema = z.object({
+  email: z.email({ error: "Invalid email format" }),
+  password: z
+    .string()
+    .min(8, { message: "Password cannot be less than 8 letters" }),
+});
 
 ////Login a user
 const loginUser = async (req, res) => {
   try {
+    ////Validate using zod
+    const result = loginSchema.safeParse(req.body);
+    if (!result.success) {
+      res.status(400).json({
+        message: result.error._zod.def[0].message,
+      });
+      return;
+    }
     const { email, password } = req.body;
     ///Check if user does not exist
     const user = await User.findOne({ email });
