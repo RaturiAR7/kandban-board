@@ -18,7 +18,6 @@ const registerUser = async ({ name, email, password }: RegisterUserParams) => {
     });
     return response;
   } catch (err: any) {
-    console.log(err.response);
     return err.response;
   }
 };
@@ -30,7 +29,6 @@ const loginUser = async ({ email, password }: RegisterUserParams) => {
     });
     return response;
   } catch (err: any) {
-    console.log(err.response);
     return err.response;
   }
 };

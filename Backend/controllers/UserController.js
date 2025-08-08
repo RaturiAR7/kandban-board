@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      throw new Error("User already exists");
     }
 
     // Hash the password
@@ -46,7 +46,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({ message: "User created successfully", user });
     return;
   } catch (error) {
-    res.status(500).json({ message: "Error registering user" });
+    res.status(500).json({ message: error.message || "Server Error" });
     return;
   }
 };
@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
       throw new Error("Invalid Credentials");
     }
   } catch (error) {
-    res.status(500).json({ message: "Error logging in user", error });
+    res.status(500).json({ message: error.message || "Server Error" });
   }
 };
 ////Get User
