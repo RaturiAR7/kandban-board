@@ -61,4 +61,4 @@ const BoardForm: React.FC<BoardFormProps> = ({ onSubmit, text = "Submit" }) => {
   );
 };
 
-export default BoardForm;
+export default React.memo(BoardForm);

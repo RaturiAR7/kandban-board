@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBoard, deleteBoard, fetchBoards } from "../apis/boardApi";
 import { getUser } from "../apis/userApi";
@@ -20,18 +20,21 @@ const Dashboard = () => {
     navigate(`/board/${boardId}`);
   };
 
-  const handleCreateBoard = async (title: string, description: string) => {
-    try {
-      await createBoard(title, description, user?._id);
-      const token = localStorage.getItem("token");
-      const responseUser = await getUser(token); // Fetch updated user data after creating a board
+  const handleCreateBoard = useCallback(
+    async (title: string, description: string) => {
+      try {
+        await createBoard(title, description, user?._id);
+        const token = localStorage.getItem("token");
+        const responseUser = await getUser(token); // Fetch updated user data after creating a board
 
-      setUser(responseUser); // Update user state with the new board
-    } catch (error) {
-      console.error("Error creating board:", error);
-      setError("Failed to create board. Please try again.");
-    }
-  };
+        setUser(responseUser); // Update user state with the new board
+      } catch (error) {
+        console.error("Error creating board:", error);
+        setError("Failed to create board. Please try again.");
+      }
+    },
+    [user, setUser]
+  );
   const handleBoardDelete = async (boardId: string) => {
     const updatedBoards = boards.filter((board) => board._id !== boardId);
     setBoards(updatedBoards);
