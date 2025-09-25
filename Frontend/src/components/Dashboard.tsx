@@ -51,7 +51,6 @@ const Dashboard = () => {
     };
     getBoards();
   }, [user, setBoards]);
-  console.log("Boards:", boards);
 
   if (!user) return <p className='text-red-500'>No boards available</p>;
 
